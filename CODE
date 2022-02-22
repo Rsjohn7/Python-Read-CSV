@@ -1,0 +1,13 @@
+# Read CSV files
+import pandas as pd
+DAILY_LOANS = pd.read_csv("DAILY_LOANS_UPB.csv")
+MONTHLY_LOANS = pd.read_csv("MONTHLY_LOANS_UPB.csv")
+
+# Outer Join
+DAILY_VS_MONTHLY = DAILY_LOANS.merge(MONTHLY_LOANS, how = 'outer', left_on='FNM_LN_ID',
+                                        right_on='FNM_LN_ID', indicator = True)
+                                        
+# Writing the final dataframe as an .xlsx file for Consumption
+writer = pd.ExcelWriter('DAILY_VS_MONTHLY.xlsx', engine='xlsxwriter')
+DAILY_VS_MONTHLY.to_excel(writer, sheet_name='Sheet1', index=False)
+writer.save()
